@@ -44,7 +44,16 @@ if uploaded_pdf and openai_key:
                 json.dump(resume_json, f, indent=2)
             st.success("Converted PDF to JSON.")
             extract_relevant_json(resume_json) 
-            optimize_resume("resume-prompt.json", related_templates, job_description, "optimized_resume.json")
+            optimized_json=optimize_resume("resume-prompt.json", related_templates, job_description)
+            with open("optimized_resume.json", "w") as f:
+                json.dump(optimized_json, f, indent=2)  
+            st.download_button(
+                label="Download Optimized Resume JSON",
+                data=optimized_json,
+                file_name="optimized_resume.json",
+                mime="application/json"
+            )
+
             st.success("Finetuned resume.")
             update_relevant_json("optimized_resume.json", "resume.json")
             st.success("Updated JSON.")

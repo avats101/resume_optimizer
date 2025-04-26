@@ -51,7 +51,7 @@ Please generate the optimized JSON resume:
     return prompt_template | model | StrOutputParser()
 
 
-def optimize_resume(raw_resume_path: str, related_templates, job_description: str, output_path: str):
+def optimize_resume(raw_resume_path: str, related_templates, job_description: str):
     raw_resume_text = load_raw_resume(raw_resume_path)
     few_shot_prompt = create_few_shot_prompt(related_templates)
     optimizer_chain = build_resume_optimizer_chain(few_shot_prompt)
@@ -61,15 +61,6 @@ def optimize_resume(raw_resume_path: str, related_templates, job_description: st
         "job_description": job_description
     })
 
-    try:
-        result_json = json.loads(result)
-        print("Successfully parsed JSON!")
+    return result
         
-        with open(output_path, "w") as f:
-            json.dump(result_json, f, indent=2)  
-        
-    except json.JSONDecodeError as e:
-        print("Failed to parse JSON!")
-        print("Returned result was:\n", result)
-        print("Error:", e)
 
