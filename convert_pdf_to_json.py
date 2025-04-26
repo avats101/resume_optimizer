@@ -1,4 +1,7 @@
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 import pdfplumber
 from langchain_community.chat_models import ChatOpenAI
 from langchain.output_parsers import PydanticOutputParser
