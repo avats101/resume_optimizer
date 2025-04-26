@@ -39,19 +39,18 @@ if uploaded_pdf and openai_key:
         try:
             st.info("Converting PDF to JSON...")
             resume_json = convert_pdf_to_json(pdf_path, openai_key)
-
             # Save JSON to file
             with open("resume.json", "w") as f:
                 json.dump(resume_json, f, indent=2)
-
             st.success("Converted PDF to JSON.")
-            
             extract_relevant_json(resume_json) 
             optimize_resume("resume-prompt.json", related_templates, job_description, "optimized_resume.json")
-            
+            st.success("Finetuned resume.")
             update_relevant_json("optimized_resume.json", "resume.json")
+            st.success("Updated JSON.")
             # Convert back to PDF
             pdf_path = convert_json_to_pdf(resume_json)
+            st.success("Generated PDF.")
             with open(pdf_path, "rb") as f:
                 st.download_button("Download PDF", f, "resume.pdf", "application/pdf")
 

@@ -1,7 +1,3 @@
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 import pdfplumber
 from langchain_community.chat_models import ChatOpenAI
 from langchain.output_parsers import PydanticOutputParser
@@ -9,6 +5,7 @@ from langchain.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from resume_schema import Resume
 import os
+import json
 
 def convert_pdf_to_json(pdf_filepath: str, openai_key: str) -> dict:
     pdf_text = ''

@@ -79,7 +79,7 @@ def update_relevant_json(prompt_path,resume_path):
         # Save updated resume
         with open(resume_path, 'w') as f:
             json.dump(updated_resume, f, indent=2)
-
+        print(json.dumps(updated_resume, indent=2))
 
     except Exception as e:
         with open(resume_path, 'r') as f:
