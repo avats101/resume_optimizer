@@ -1,4 +1,5 @@
 import json
+import copy
 def extract_relevant_json(full_resume: dict):
     extracted = {
         "$schema": full_resume.get("$schema", ""),
@@ -41,7 +42,7 @@ def extract_relevant_json(full_resume: dict):
         json.dump(extracted, f, indent=2) 
  
     
-import copy
+
 
 def update_relevant_json(prompt_path,resume_path):
     try:
@@ -76,11 +77,17 @@ def update_relevant_json(prompt_path,resume_path):
                 if "name" in project_update:
                     updated_resume["projects"][i]["name"] = project_update["name"]
 
-        # Save updated resume
-        with open(resume_path, 'w') as f:
-            json.dump(updated_resume, f, indent=2)
-        print(json.dumps(updated_resume, indent=2))
+        return updated_resume
 
     except Exception as e:
-        with open(resume_path, 'r') as f:
-            return json.load(f)
+        print(f"Error updating JSON: {e}")
+        return resume_data
+
+if __name__ == '__main__':
+    # Example usage
+    resume_path = 'data/Richard Hendricks.json'
+    prompt_path = 'data/optimized_resume.json'
+    print("Updating resume...")
+    updated_json=update_relevant_json(prompt_path, resume_path)
+    print(json.dumps(updated_json, indent=2))
+    print("Updated resume successfully.")

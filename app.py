@@ -55,13 +55,20 @@ if uploaded_pdf and openai_key:
             )
 
             st.success("Finetuned resume.")
-            update_relevant_json("optimized_resume.json", "resume.json")
-            st.success("Updated JSON.")
+            updated_json=update_relevant_json("optimized_resume.json", "resume.json")
+            with open("updated_resume.json", "w") as f:
+                json.dump(updated_json, f, indent=2) 
+            st.download_button(
+                label="Download Updated Resume JSON",
+                data=updated_json,
+                file_name=".json",
+                mime="application/json"
+            )
+    
             # Convert back to PDF
-            pdf_path = convert_json_to_pdf(resume_json)
-            st.success("Generated PDF.")
+            pdf_path = convert_json_to_pdf(updated_json)
             with open(pdf_path, "rb") as f:
-                st.download_button("Download PDF", f, "resume.pdf", "application/pdf")
+                st.download_button("Download PDF", f, "updated_resume.pdf", "application/pdf")
 
         except Exception as e:
             st.error(f"Something went wrong: {e}")
