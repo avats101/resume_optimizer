@@ -60,7 +60,8 @@ def optimize_resume(raw_resume_path: str, related_templates, job_description: st
         "raw_resume": raw_resume_text,
         "job_description": job_description
     })
-
+    if isinstance(result, str):
+        result = json.loads(result) 
     return result
         
 
