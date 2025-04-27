@@ -26,8 +26,6 @@ optimize_button = st.button("Optimize Resume")
 if optimize_button:
 
     if uploaded_pdf and openai_key and job_description:
-        
-        st.write(f"Job Description: {job_description}")
         # Progress bar setup
         progress = st.progress(0)
         progress_text = st.empty()
