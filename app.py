@@ -52,56 +52,56 @@ if uploaded_pdf and openai_key:
         except Exception as e:
             st.error(f"Error converting PDF: {e}")
 
-# --- Step 2: Enter Job Description ---
-if st.session_state.resume_json:
-    job_description = st.text_area("Enter the Job Description", placeholder="Looking for a data scientist with experience in Python, SQL, machine learning...")
+    # --- Step 2: Enter Job Description ---
+    if st.session_state.resume_json:
+        job_description = st.text_area("Enter the Job Description", placeholder="Looking for a data scientist with experience in Python, SQL, machine learning...")
 
-    if job_description.strip():
-        if st.button("Optimize Resume"):
-            progress_bar = st.progress(0)
-            try:
-                progress_bar.progress(10)
+        if job_description.strip():
+            if st.button("Optimize Resume"):
+                progress_bar = st.progress(0)
+                try:
+                    progress_bar.progress(10)
 
-                related_templates = get_related_template(chroma_db, job_description)
-                progress_bar.progress(30)
-                extract_relevant_json(resume_json) 
-                optimized_json = optimize_resume("resume-prompt.json", related_templates, job_description)
-                st.session_state.optimized_json = optimized_json
+                    related_templates = get_related_template(chroma_db, job_description)
+                    progress_bar.progress(30)
+                    extract_relevant_json(resume_json) 
+                    optimized_json = optimize_resume("resume-prompt.json", related_templates, job_description)
+                    st.session_state.optimized_json = optimized_json
 
-                with open("optimized_resume.json", "w") as f:
-                    json.dump(optimized_json, f, indent=2)
+                    with open("optimized_resume.json", "w") as f:
+                        json.dump(optimized_json, f, indent=2)
 
-                progress_bar.progress(60)
+                    progress_bar.progress(60)
 
-                # Update resume
-                base_dir = os.path.dirname(__file__)
-                prompt_path = os.path.join(base_dir, "optimized_resume.json")
-                resume_path = os.path.join(base_dir, "resume.json")
+                    # Update resume
+                    base_dir = os.path.dirname(__file__)
+                    prompt_path = os.path.join(base_dir, "optimized_resume.json")
+                    resume_path = os.path.join(base_dir, "resume.json")
 
-                updated_json = update_relevant_json(prompt_path, resume_path)
+                    updated_json = update_relevant_json(prompt_path, resume_path)
 
-                with open("updated_resume.json", "w") as f:
-                    json.dump(updated_json, f, indent=2)
+                    with open("updated_resume.json", "w") as f:
+                        json.dump(updated_json, f, indent=2)
 
-                progress_bar.progress(80)
+                    progress_bar.progress(80)
 
-                # Convert to final PDF
-                final_pdf_path = convert_json_to_pdf(updated_json)
+                    # Convert to final PDF
+                    final_pdf_path = convert_json_to_pdf(updated_json)
 
-                progress_bar.progress(100)
-                st.success("Resume optimized successfully.")
+                    progress_bar.progress(100)
+                    st.success("Resume optimized successfully.")
 
-                with open(final_pdf_path, "rb") as f:
-                    st.download_button(
-                        label="Download Optimized Resume (PDF)",
-                        data=f,
-                        file_name="optimized_resume.pdf",
-                        mime="application/pdf"
-                    )
+                    with open(final_pdf_path, "rb") as f:
+                        st.download_button(
+                            label="Download Optimized Resume (PDF)",
+                            data=f,
+                            file_name="optimized_resume.pdf",
+                            mime="application/pdf"
+                        )
 
-            except Exception as e:
-                st.error(f"Error optimizing resume: {e}")
-                progress_bar.empty()
+                except Exception as e:
+                    st.error(f"Error optimizing resume: {e}")
+                    progress_bar.empty()
 
 
 
