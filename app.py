@@ -20,6 +20,55 @@ openai_key = st.text_input("Enter your OpenAI API Key", type="password")
 
 uploaded_pdf = st.file_uploader("Upload a Resume PDF", type="pdf")
 
+# if uploaded_pdf and openai_key:
+#     with tempfile.TemporaryDirectory() as tmpdir:
+#         # Save uploaded PDF
+#         pdf_path = os.path.join(tmpdir, "resume.pdf")
+#         with open(pdf_path, "wb") as f:
+#             f.write(uploaded_pdf.read())
+
+#         st.success("PDF uploaded successfully.")
+        
+#         job_description= st.text_area("Enter Job Description", "Need a data scientist with experience in Python, SQL, and machine learning.")
+#         related_templates = get_related_template(chroma_db,job_description)
+
+
+#         try:
+#             st.info("Converting PDF to JSON...")
+#             resume_json = convert_pdf_to_json(pdf_path, openai_key)
+#             # Save JSON to file
+#             with open("resume.json", "w") as f:
+#                 json.dump(resume_json, f, indent=2)
+#             st.success("Converted PDF to JSON.")
+#             extract_relevant_json(resume_json) 
+#             optimized_json=optimize_resume("resume-prompt.json", related_templates, job_description)
+#             with open("optimized_resume.json", "w") as f:
+#                 json.dump(optimized_json, f, indent=2)  
+
+#             st.success("Finetuned resume.")
+        
+#             base_dir = os.path.dirname(__file__)  # directory where your .py file is
+#             prompt_path = os.path.join(base_dir, "optimized_resume.json")
+#             resume_path = os.path.join(base_dir, "resume.json")
+#             st.write(os.getcwd())  # See where Streamlit thinks the current folder is
+#             st.write(os.path.exists("optimized_resume.json"))
+#             st.write(os.path.exists("resume.json"))
+
+#             updated_json=update_relevant_json(prompt_path,resume_path)
+#             with open("updated_resume.json", "w") as f:
+#                 json.dump(updated_json, f, indent=2) 
+#             json_str = json.dumps(updated_json, indent=2)
+#             st.success("Updated resume JSON.")
+#             # Convert back to PDF
+#             pdf_path = convert_json_to_pdf(updated_json)
+#             with open(pdf_path, "rb") as f:
+#                 st.download_button("Download PDF", f, "updated_resume.pdf", "application/pdf")
+
+#         except Exception as e:
+#             st.error(f"Something went wrong: {e}")
+
+
+
 # --- Initialize session state ---
 if 'resume_json' not in st.session_state:
     st.session_state.resume_json = None
@@ -36,9 +85,9 @@ if uploaded_pdf and openai_key:
         st.success("PDF uploaded successfully.")
 
         try:
-            with st.spinner("Converting PDF to JSON..."):
-                resume_obj = convert_pdf_to_json(pdf_path, openai_key)
-                resume_json = resume_obj.dict()
+            with st.spinner("Reading PDF..."):
+                # Here we assume convert_pdf_to_json directly returns a dictionary
+                resume_json = convert_pdf_to_json(pdf_path, openai_key)
                 st.session_state.resume_json = resume_json
 
                 # Save for later
@@ -64,8 +113,6 @@ if st.session_state.resume_json:
                 progress_bar.progress(30)
 
                 optimized_json = optimize_resume("resume-prompt.json", related_templates, job_description)
-                if isinstance(optimized_json, str):
-                    optimized_json = json.loads(optimized_json)
                 st.session_state.optimized_json = optimized_json
 
                 with open("optimized_resume.json", "w") as f:
