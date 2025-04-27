@@ -9,7 +9,7 @@ __pycache__/
 
 # ChromaDB 
 chromadb/
-
+key.txt
 # Distribution / packaging
 .Python
 build/

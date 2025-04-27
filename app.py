@@ -83,44 +83,70 @@ if optimize_button:
     else:
         st.error("Please upload all required inputs (PDF, API key, and Job Description).")
 
-
-# if job_description:
-#     related_templates = get_related_template(chroma_db,job_description)
-# if uploaded_pdf and openai_key and job_description:
-#     with tempfile.TemporaryDirectory() as tmpdir:
-#         # Save uploaded PDF
-#         pdf_path = os.path.join(tmpdir, "resume.pdf")
-#         with open(pdf_path, "wb") as f:
-#             f.write(uploaded_pdf.read())
-#         st.success("PDF uploaded successfully.")
-#         try:
-#             st.info("Reading PDF..")
-#             resume_json = convert_pdf_to_json(pdf_path, openai_key)
-#             # Save JSON to file
-#             with open("resume.json", "w") as f:
-#                 json.dump(resume_json, f, indent=2)
-#             st.success("Converted PDF to JSON..")
-#             extract_relevant_json(resume_json) 
-#             optimized_json=optimize_resume("resume-prompt.json", related_templates, job_description)
-#             with open("optimized_resume.json", "w") as f:
-#                 json.dump(optimized_json, f, indent=2)  
-
-#             st.success("Resume is optimized.")
+with st.sidebar:
+    st.image("https://img.icons8.com/fluency/96/000000/resume.png", width=80)
+    st.markdown("## Guide & Tips")
+    
+    with st.expander("About ATS Systems", expanded=False):
+        st.markdown("""
+        **Applicant Tracking Systems (ATS)** scan your resume before a human ever sees it.
         
-#             base_dir = os.path.dirname(__file__) 
-#             prompt_path = os.path.join(base_dir, "optimized_resume.json")
-#             resume_path = os.path.join(base_dir, "resume.json")
-#             st.success("Updating Resume JSON.")
-#             updated_json=update_relevant_json(prompt_path,resume_path)
-#             with open("updated_resume.json", "w") as f:
-#                 json.dump(updated_json, f, indent=2) 
-#             json_str = json.dumps(updated_json, indent=2)
-#             st.success("Generating PDF.")
-#             # Convert back to PDF
-#             pdf_path = convert_json_to_pdf(updated_json)
-#             with open(pdf_path, "rb") as f:
-#                 st.download_button("Download PDF", f, "updated_resume.pdf", "application/pdf")
-
-#         except Exception as e:
-#             st.error(f"Something went wrong: {e}")
-
+        Key points:
+        - 75% of resumes are rejected by ATS before reaching a recruiter
+        - Simple formatting increases your chances
+        - Keyword matching is crucial for passing ATS filters
+        """)
+    
+    with st.expander("Resume Best Practices", expanded=False):
+        st.markdown("""
+        1. **Be Specific**: Use numbers and metrics to quantify achievements
+        2. **Customize**: Tailor your resume for each job application
+        3. **Format Properly**: Use consistent headers and bullet points
+        4. **Focus on Relevance**: Prioritize relevant experience
+        5. **Check for Typos**: Spelling and grammar errors create poor impressions
+        """)
+    
+    with st.expander("Keyword Optimization Tips", expanded=True):
+        st.markdown("""
+        ✅ Include technical skills mentioned in the job description
+        
+        ✅ Match the exact phrasing used in the listing
+        
+        ✅ Include both acronyms and spelled-out versions (e.g., "UI/UX" and "User Interface")
+        
+        ✅ Use industry-standard terminology
+        
+        ✅ Include soft skills that match the company culture
+        """)
+    
+    st.markdown("---")
+    st.markdown("### Need help?")
+    help_option = st.selectbox(
+        "Choose an option:",
+        ["Select", "Common Resume Mistakes", "What to Include", "ATS Compatibility Issues"]
+    )
+    
+    if help_option == "Common Resume Mistakes":
+        st.info("""
+        - **Too generic**: Not tailoring to specific job
+        - **Wall of text**: Poor formatting and readability
+        - **Missing keywords**: Not including terms from job description
+        - **Too long**: Exceeding 2 pages for most roles
+        - **Focusing on duties**: Not highlighting accomplishments
+        """)
+    elif help_option == "What to Include":
+        st.info("""
+        - **Professional summary**: 2-3 sentences highlighting your value
+        - **Relevant skills**: Both technical and soft skills
+        - **Work experience**: Focus on achievements, not just responsibilities
+        - **Education**: Degrees, certifications, relevant coursework
+        - **Projects**: Highlight relevant work with measurable outcomes
+        """)
+    elif help_option == "ATS Compatibility Issues":
+        st.info("""
+        - **Complex formatting**: Tables, headers, footers, columns
+        - **Images & graphics**: Most ATS can't read these
+        - **Non-standard section headings**: Stick to conventional titles
+        - **PDF compatibility**: Ensure PDFs are text-based, not scanned
+        - **File naming**: Use simple names (FirstName_LastName_Resume.pdf)
+        """)
