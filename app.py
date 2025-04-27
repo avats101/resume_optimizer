@@ -49,14 +49,24 @@ if uploaded_pdf and openai_key:
                 json.dump(optimized_json, f, indent=2)  
 
             st.success("Finetuned resume.")
-            updated_json=update_relevant_json("optimized_resume.json", "resume.json")
+            
+            import os
+
+            base_dir = os.path.dirname(__file__)  # directory where your .py file is
+            prompt_path = os.path.join(base_dir, "optimized_resume.json")
+            resume_path = os.path.join(base_dir, "resume.json")
+            st.write(os.getcwd())  # See where Streamlit thinks the current folder is
+            st.write(os.path.exists("optimized_resume.json"))
+            st.write(os.path.exists("resume.json"))
+
+            updated_json=update_relevant_json(prompt_path,resume_path)
             with open("updated_resume.json", "w") as f:
                 json.dump(updated_json, f, indent=2) 
             json_str = json.dumps(updated_json, indent=2)
             st.download_button(
                 label="Download Optimized Resume JSON",
                 data=json_str,
-                file_name="optimized_resume.json",
+                file_name="updated_resume.json",
                 mime="application/json"
             )
             st.success("Updated resume JSON.")

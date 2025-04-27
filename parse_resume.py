@@ -1,5 +1,6 @@
 import json
 import copy
+import streamlit as st
 def extract_relevant_json(full_resume: dict):
     extracted = {
         "$schema": full_resume.get("$schema", ""),
@@ -80,7 +81,7 @@ def update_relevant_json(prompt_path,resume_path):
         return updated_resume
 
     except Exception as e:
-        print(f"Error updating JSON: {e}")
+        st.error(f"Error updating JSON: {e}")
         return resume_data
 
 if __name__ == '__main__':
