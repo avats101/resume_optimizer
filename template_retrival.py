@@ -2,19 +2,20 @@ import json
 from typing import List, Dict
 from langchain.vectorstores import Chroma
 from langchain.schema import Document
-from langchain.embeddings.sentence_transformer import SentenceTransformerEmbeddings
+from langchain_community.embeddings.huggingface import HuggingFaceEmbeddings
+from sentence_transformers import SentenceTransformer
+
 def set_chroma_db(templates_list: List[Dict]):
     documents = [
         Document(
-            page_content=json.dumps(item, indent=2) # Store the full object as JSON string
+            page_content=json.dumps(item, indent=2) 
         )
         for item in templates_list
     ]
-
-    embedding_function = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2", device="cpu")
-
+    model = SentenceTransformer("all-MiniLM-L6-v2")
+    embedding_function = HuggingFaceEmbeddings(model=model)
     chroma_db = Chroma.from_documents(
-        documents, # using the entire document 
+        documents, 
         embedding_function
     )
     return chroma_db
