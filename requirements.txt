@@ -16,3 +16,4 @@ sentence-transformers
 torch
 chromadb
 pysqlite3-binary
+huggingface_hub[hf_xet]

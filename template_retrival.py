@@ -3,21 +3,21 @@ from typing import List, Dict
 from langchain.vectorstores import Chroma
 from langchain.schema import Document
 from langchain_community.embeddings.huggingface import HuggingFaceEmbeddings
-from sentence_transformers import SentenceTransformer
 
 def set_chroma_db(templates_list: List[Dict]):
     documents = [
         Document(
-            page_content=json.dumps(item, indent=2) 
+            page_content=json.dumps(item, indent=2)
         )
         for item in templates_list
     ]
-    model = SentenceTransformer("all-MiniLM-L6-v2")
-    embedding_function = HuggingFaceEmbeddings(model=model)
+    model_name = "all-MiniLM-L6-v2"
+    embedding_function = HuggingFaceEmbeddings(model_name=model_name)
     chroma_db = Chroma.from_documents(
-        documents, 
+        documents,  
         embedding_function
     )
+
     return chroma_db
 
 def get_related_template(chroma_db, jd:str) -> List[Dict]:
