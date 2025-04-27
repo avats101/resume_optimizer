@@ -184,11 +184,9 @@
             <ul class="summary-list">
                 <li>{{ project.description }}</li> <!-- Make the description the first bullet point -->
                 <li>{{ project.summary }}</li> <!-- Make the summary the second bullet point -->
-            </ul>
             {% if project.highlights %}
-            <ul>
                 {% for highlight in project.highlights %}
-                    <li class="highlight">{{ highlight }}</li>
+                <li>{{ highlight }}</li>
                 {% endfor %}
             </ul>
             {% endif %}
