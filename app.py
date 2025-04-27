@@ -22,7 +22,8 @@ if "openai_key" not in st.session_state:
     
 if "uploaded_pdf" not in st.session_state:
     st.session_state.uploaded_pdf = st.file_uploader("Upload your Resume", type="pdf")
-
+openai_key = st.session_state.openai_key
+uploaded_pdf = st.session_state.uploaded_pdf
 
 # --- Initialize session state ---
 if 'resume_json' not in st.session_state:
