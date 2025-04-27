@@ -11,7 +11,7 @@ def set_chroma_db(templates_list: List[Dict]):
         for item in templates_list
     ]
 
-    embedding_function = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
+    embedding_function = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2", device="cpu")
 
     chroma_db = Chroma.from_documents(
         documents, # using the entire document 
