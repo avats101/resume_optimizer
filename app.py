@@ -17,13 +17,10 @@ from data.resume_templates import RESUME_TEMPLATES
 st.title("Resume Optimizer")
 chroma_db=set_chroma_db(RESUME_TEMPLATES)
 
-if "openai_key" not in st.session_state:
-    st.session_state.openai_key = st.text_input("Enter your OpenAI API Key", type="password")
-    
-if "uploaded_pdf" not in st.session_state:
-    st.session_state.uploaded_pdf = st.file_uploader("Upload your Resume", type="pdf")
-openai_key = st.session_state.openai_key
-uploaded_pdf = st.session_state.uploaded_pdf
+openai_key = st.text_input("Enter your OpenAI API Key", type="password")
+uploaded_pdf = st.file_uploader("Upload your Resume", type="pdf")
+st.session_state.openai_key=openai_key
+st.session_state.uploaded_pdf = uploaded_pdf
 
 # --- Initialize session state ---
 if 'resume_json' not in st.session_state:
