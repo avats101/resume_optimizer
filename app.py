@@ -19,12 +19,15 @@ chroma_db=set_chroma_db(RESUME_TEMPLATES)
 
 openai_key = st.text_input("Enter your OpenAI API Key", type="password")
 uploaded_pdf = st.file_uploader("Upload your Resume", type="pdf")
-job_description= st.text_area("Enter Job Description", "Need a data scientist with experience in Python, SQL, and machine learning.")
+job_description = st.text_area("Enter Job Description", "Need a data scientist with experience in Python, SQL, and machine learning.", height=300)
 
 optimize_button = st.button("Optimize Resume")
 
 if optimize_button:
+
     if uploaded_pdf and openai_key and job_description:
+        
+        st.write(f"Job Description: {job_description}")
         # Progress bar setup
         progress = st.progress(0)
         progress_text = st.empty()
