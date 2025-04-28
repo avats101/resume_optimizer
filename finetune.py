@@ -31,7 +31,7 @@ def build_resume_optimizer_chain(few_shot_prompt):
         ("human", """
 Below is a flawed or unstructured resume, a job description the candidate is applying to, and some helpful context from other successful resumes.
 
-Use the job description and context to emphasize relevant skills and experiences. Your job is to rewrite and optimize the resume in valid JSON format aligned with ATS standards.
+Use the job description and context to emphasize relevant skills and experiences. Your job is to rewrite and optimize the resume in valid JSON format aligned with ATS standards. Try to come up with numbers and metrics to quantify the candidate's achievements.
 
 --- RAW RESUME ---
 {raw_resume}
